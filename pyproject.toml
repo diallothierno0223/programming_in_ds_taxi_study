@@ -8,12 +8,20 @@ authors = [
 ]
 requires-python = ">=3.13"
 dependencies = [
+    "dash>=4.5.1",
+    "geopandas>=1.2.0",
+    "ipykernel>=7.4.0",
+    "mlxtend>=0.25.0",
+    "nbconvert>=7.17.2",
+    "nbformat>=5.11.1",
+    "numpy>=2.5.5",
     "pandas>=3.1.1",
+    "plotly>=7.1.0",
+    "pyarrow>=26.0.1",
+    "scikit-learn>=1.9.1",
+    "shapely>=2.2.0",
+    "statsmodels>=0.15.0",
 ]
 
-[project.scripts]
-programming-in-ds-taxi-study = "programming_in_ds_taxi_study:main"
-
-[build-system]
-requires = ["uv_build>=0.13.7,<0.14.0"]
-build-backend = "uv_build"
+[tool.uv]
+package = false

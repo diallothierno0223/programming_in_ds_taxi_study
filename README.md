@@ -1,110 +1,72 @@
-# Programming in data science project
+# NYC Yellow Taxi Study — Programming for Data Science (ESILV)
 
-> *Description courte du projet à venir...*
+Final project of the *Programming for Data Science* course (H. Alatrista-Salas).
+We apply the **KDD process** to the NYC TLC Yellow Taxi trip records (May – July 2026, ~10 M trips)
+and present the results in a **Dash dashboard**.
 
----
+**Team:** Thierno DIALLO (team head), VASEEKARAN, ZUCCARELLI, PAYAN
 
-## Installation & Configuration (Setup)
+## Contents
 
-Ce projet utilise **[uv](https://docs.astral.sh/uv/)** pour la gestion rapide des environnements virtuels et des dépendances. Toutefois, des instructions alternatives avec `pip` et `conda` sont également fournies ci-dessous.
+| File | Description |
+|---|---|
+| `DIALLO_notebook.ipynb` | Main notebook: exploration, cleaning, 4 queries, dashboard, `__main__` block |
+| `outputs/DIALLO_dashboard.html` | Static export of the dashboard (evidence that it works) |
+| `data/` | Raw data (not versioned, see below) |
+| `pyproject.toml`, `uv.lock` | Dependencies |
 
-### 1. Cloner le dépôt
+## The four queries
 
-```bash
-git clone https://github.com/votre-utilisateur/nom-du-projet.git
-cd nom-du-projet
-```
+1. **Grouping** — revenue, demand and average card tip per pick-up zone / borough (top 10 zones).
+2. **Frequent pattern mining** — Apriori + association rules on discretised trip attributes
+   (boroughs, time slot, weekday/weekend, payment type, distance, tip level, passengers).
+3. **Temporal forecasting** — hourly demand, Holt-Winters (weekly seasonality) trained on May–June,
+   evaluated on July vs a seasonal-naive baseline (MAE, RMSE, MAPE).
+4. **Spatial clustering** — K-Means on per-zone profiles (demand, distance, fare, night/weekend share,
+   tip, centroid), k chosen with the silhouette score, shown on a choropleth map.
 
----
+Every indicator is explained in a markdown cell of the notebook.
 
-### 2. Configurer l'environnement et installer les dépendances
+## Data
 
-#### Option A : Avec `uv` (Recommandé)
+Download into `data/` (files are too large for Git):
 
-1. **Installer `uv`** (si ce n'est pas déjà fait) :
-   * **macOS / Linux :**
-     ```bash
-     curl -LsSf https://astral.sh/uv/install.sh | sh
-     ```
-   * **Windows (PowerShell) :**
-     ```powershell
-     powershell -ExecutionPolicy ByPass -c "irm https://astral.sh/uv/install.ps1 | iex"
-     ```
-
-2. **Synchroniser l'environnement et installer les dépendances :**
-   ```bash
-   uv sync
-   ```
-   *(Cela créera automatiquement un dossier `.venv` et installera les packages définis dans `pyproject.toml` / `uv.lock`).*
-
-3. **Commandes utiles avec `uv` :**
-   * **Ajouter un nouveau package :** `uv add <nom-du-package>`
-   * **Exécuter un script dans l'environnement :** `uv run python main.py`
-   * **Activer l'environnement manuellement :** `source .venv/bin/activate` (Linux/macOS) ou `.venv\Scripts\activate` (Windows).
-
----
-
-#### Option B : Équivalent avec `pip` (Standard Python)
-
-1. **Créer et activer l'environnement virtuel :**
-   ```bash
-   python -m venv .venv
-   # Sur Linux / macOS :
-   source .venv/bin/activate
-   # Sur Windows :
-   .venv\Scripts\activate
-   ```
-
-2. **Installer les dépendances :**
-   ```bash
-   pip install .
-   ```
-
-3. **Ajouter un package :**
-   ```bash
-   pip install <nom-du-package>
-   ```
-
----
-
-#### Option C : Équivalent avec `conda`
-
-1. **Créer et activer l'environnement :**
-   ```bash
-   conda create -n mon-env python=3.11
-   conda activate mon-env
-   ```
-
-2. **Installer les dépendances :**
-   ```bash
-   pip install -r requirements.txt
-   # Ou via pyproject.toml :
-   pip install .
-   ```
-
-3. **Ajouter un package :**
-   ```bash
-   conda install <nom-du-package>
-   # Ou via pip à l'intérieur de l'environnement conda :
-   pip install <nom-du-package>
-   ```
-
----
-
-### 3. Configuration des données (`data/`)
-
-Le dossier `data/` est présent à la racine du projet, mais il est **volontairement vide** (les fichiers de données étant trop volumineux pour etre Git).
-
-Pour faire fonctionner le projet :
-1. Téléchargez les fichiers de données nécessaires depuis votre source.
-2. Placez-les directement dans le dossier `data/` à la racine :
+- `yellow_tripdata_2026-05.parquet`, `yellow_tripdata_2026-06.parquet`, `yellow_tripdata_2026-07.parquet`
+  from https://www.nyc.gov/site/tlc/about/tlc-trip-record-data.page
+- `taxi_zone_lookup.csv` and the `taxi_zones/` shapefile (same page, "Taxi Zone Lookup Table" / "Taxi Zone Shapefile")
 
 ```text
-nom-du-projet/
-├── data/               <-- Placez vos fichiers ici
-│   ├── fichier1.csv
-│   └── fichier2.parquet
-├── src/                <-- Code ici
-├── pyproject.toml
-└── README.md
+data/
+├── yellow_tripdata_2026-05.parquet
+├── yellow_tripdata_2026-06.parquet
+├── yellow_tripdata_2026-07.parquet
+├── taxi_zone_lookup.csv
+└── taxi_zones/taxi_zones.shp (+ .dbf, .shx, .prj, .cpg)
 ```
+
+## Setup
+
+With [uv](https://docs.astral.sh/uv/) (recommended):
+
+```bash
+uv sync
+uv run --with jupyterlab jupyter lab   # or open the notebook in VS Code with the .venv kernel
+```
+
+With pip:
+
+```bash
+python -m venv .venv && source .venv/bin/activate   # Windows: .venv\Scripts\activate
+pip install dash geopandas ipykernel mlxtend nbconvert nbformat numpy pandas plotly pyarrow scikit-learn shapely statsmodels jupyter
+```
+
+## Running
+
+- **Interactively:** run all cells. The last cell starts the dashboard at http://127.0.0.1:8050.
+- **Headless** (no dashboard server, only the HTML export):
+
+```bash
+RUN_DASHBOARD=0 uv run jupyter nbconvert --to notebook --execute --inplace DIALLO_notebook.ipynb
+```
+
+The notebook needs ~6 GB of RAM (three months of trips are loaded at once).
