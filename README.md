@@ -13,7 +13,7 @@ and present the results in a **Dash dashboard**.
 | `DIALLO_notebook.ipynb` | Main notebook: exploration, cleaning, 4 queries, dashboard, `__main__` block |
 | `DIALLO_slides.pdf` / `.pptx` | Presentation slides (5-minute talk, speaker notes in the .pptx) |
 | `outputs/DIALLO_dashboard.html` | Static export of the dashboard (evidence that it works) |
-| `data/` | Raw data (not versioned, see below) |
+| `data/` | Raw data |
 | `pyproject.toml`, `uv.lock` | Dependencies |
 
 ## The four queries
@@ -24,7 +24,7 @@ and present the results in a **Dash dashboard**.
 3. **Temporal forecasting** — hourly demand, Holt-Winters (weekly seasonality) trained on May–June,
    evaluated on July vs a seasonal-naive baseline (MAE, RMSE, MAPE).
 4. **Spatial clustering** — K-Means on per-zone profiles (demand, distance, fare, night/weekend share,
-   tip, centroid), k chosen with the silhouette score, shown on a choropleth map.
+   tip; no coordinates), k chosen with the silhouette score, shown on a choropleth map.
 
 5. **Bonus — external dataset (NOAA weather)** — daily Central Park weather joined on the date; log-linear
    regression of daily trips on rain, temperature, holidays and trend; used to explain the forecast errors.
@@ -33,12 +33,12 @@ Every indicator is explained in a markdown cell of the notebook.
 
 ## Data
 
-Download into `data/` (files are too large for Git):
+All the data used by the notebook is versioned in `data/`, so the notebook runs right after cloning. Sources:
 
 - `yellow_tripdata_2026-05.parquet`, `yellow_tripdata_2026-06.parquet`, `yellow_tripdata_2026-07.parquet`
   from https://www.nyc.gov/site/tlc/about/tlc-trip-record-data.page
 - `taxi_zone_lookup.csv` and the `taxi_zones/` shapefile (same page, "Taxi Zone Lookup Table" / "Taxi Zone Shapefile")
-- `noaa_central_park_daily_2026.csv` is already in the repo (NOAA GHCN-Daily, station USW00094728, small file)
+- `noaa_central_park_daily_2026.csv` (NOAA GHCN-Daily, station USW00094728)
 
 ```text
 data/
@@ -46,7 +46,7 @@ data/
 ├── yellow_tripdata_2026-06.parquet
 ├── yellow_tripdata_2026-07.parquet
 ├── taxi_zone_lookup.csv
-├── noaa_central_park_daily_2026.csv   (versioned)
+├── noaa_central_park_daily_2026.csv
 └── taxi_zones/taxi_zones.shp (+ .dbf, .shx, .prj, .cpg)
 ```
 
