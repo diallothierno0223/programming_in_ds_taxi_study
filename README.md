@@ -25,6 +25,9 @@ and present the results in a **Dash dashboard**.
 4. **Spatial clustering** — K-Means on per-zone profiles (demand, distance, fare, night/weekend share,
    tip, centroid), k chosen with the silhouette score, shown on a choropleth map.
 
+5. **Bonus — external dataset (NOAA weather)** — daily Central Park weather joined on the date; log-linear
+   regression of daily trips on rain, temperature, holidays and trend; used to explain the forecast errors.
+
 Every indicator is explained in a markdown cell of the notebook.
 
 ## Data
@@ -34,6 +37,7 @@ Download into `data/` (files are too large for Git):
 - `yellow_tripdata_2026-05.parquet`, `yellow_tripdata_2026-06.parquet`, `yellow_tripdata_2026-07.parquet`
   from https://www.nyc.gov/site/tlc/about/tlc-trip-record-data.page
 - `taxi_zone_lookup.csv` and the `taxi_zones/` shapefile (same page, "Taxi Zone Lookup Table" / "Taxi Zone Shapefile")
+- `noaa_central_park_daily_2026.csv` is already in the repo (NOAA GHCN-Daily, station USW00094728, small file)
 
 ```text
 data/
@@ -41,6 +45,7 @@ data/
 ├── yellow_tripdata_2026-06.parquet
 ├── yellow_tripdata_2026-07.parquet
 ├── taxi_zone_lookup.csv
+├── noaa_central_park_daily_2026.csv   (versioned)
 └── taxi_zones/taxi_zones.shp (+ .dbf, .shx, .prj, .cpg)
 ```
 

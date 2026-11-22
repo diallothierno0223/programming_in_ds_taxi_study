@@ -1,6 +1,7 @@
 # data folders
 data/*
 !data/.gitkeep
+!data/noaa_central_park_daily_2026.csv
 
 # Byte-compiled / optimized / DLL files
 __pycache__/
