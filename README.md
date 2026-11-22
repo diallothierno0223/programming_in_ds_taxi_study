@@ -4,7 +4,7 @@ Final project of the *Programming for Data Science* course (H. Alatrista-Salas).
 We apply the **KDD process** to the NYC TLC Yellow Taxi trip records (May – July 2026, ~10 M trips)
 and present the results in a **Dash dashboard**.
 
-**Team:** Thierno DIALLO (team head), VASEEKARAN, ZUCCARELLI, PAYAN
+**Team:** Thierno DIALLO (team head), Joe VASEEKARAN, Lisandru ZUCCARELLI, Noé PAYAN
 
 ## Contents
 
