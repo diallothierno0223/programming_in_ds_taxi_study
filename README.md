@@ -11,6 +11,7 @@ and present the results in a **Dash dashboard**.
 | File | Description |
 |---|---|
 | `DIALLO_notebook.ipynb` | Main notebook: exploration, cleaning, 4 queries, dashboard, `__main__` block |
+| `DIALLO_slides.pdf` / `.pptx` | Presentation slides (5-minute talk, speaker notes in the .pptx) |
 | `outputs/DIALLO_dashboard.html` | Static export of the dashboard (evidence that it works) |
 | `data/` | Raw data (not versioned, see below) |
 | `pyproject.toml`, `uv.lock` | Dependencies |
